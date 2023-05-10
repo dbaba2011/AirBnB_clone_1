@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """ This is the Base Model Class """
-
 import uuid
 import datetime
 
@@ -17,11 +16,26 @@ class BaseModel:
     sace: updates the public instance attribute
     to_dict: return a dictionary reprenstation
     """
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """ Constructor method """
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.datetime.now()
-        self.updated_at = datetime.datetime.now()
+        if kwargs:
+            dateformat = "%Y-%m-%dT%H:%M:%S.%f"
+            for key, value in kwargs.items():
+                if key == "__class__":
+                    continue
+
+                elif key == "id":
+                    self.id = value
+                elif key == "created_at":
+                    self.created_at = datetime.datetime.strptime(value, dateformat)
+                elif key == "updated_at":
+                    self.updated_at = datetime.datetime.strptime(value, dateformat)
+                else:
+                    setattr(self, key, value)
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.datetime.now()
+            self.updated_at = datetime.datetime.now()
 
     def __str__(self):
         """ Print the string representation of the class """
