@@ -1,8 +1,10 @@
 #!/usr/bin/python3
 """ This is the Base Model Class """
+
 import uuid
 import datetime
 import models
+
 
 class BaseModel:
     """ Base models class
@@ -39,6 +41,7 @@ class BaseModel:
             self.created_at = datetime.datetime.now()
             self.updated_at = datetime.datetime.now()
             models.storage.new(self)
+
     def __str__(self):
         """ Print the string representation of the class """
         return "[{0}] ({1}) {2}".format(
