@@ -20,7 +20,11 @@ class BaseModel:
     """
 
     def __init__(self, *args, **kwargs):
-        """ Constructor method """
+        """ Initilazes base class instance
+        Args:
+            *args: list of arguments(not used)
+            **kwargs: dictionary of arguments"""
+            
         if kwargs:
             dateformat = "%Y-%m-%dT%H:%M:%S.%f"
             for key, value in kwargs.items():
@@ -42,17 +46,20 @@ class BaseModel:
             models.storage.new(self)
 
     def __str__(self):
-        """ Print the string representation of the class """
+        """ Print the string representation of the BaseModel class
+        with the structure [<class name>] (<self.id>) <self.__dict__>
+        """
         return "[{0}] ({1}) {2}".format(
                 self.__class__.__name__, self.id, self.__dict__)
 
     def save(self):
-        """Updated the updated_at attribute """
+        """Updates the public attribute update_at with the new datetime"""
         self.updated_at = datetime.now()
         models.storage.save()
 
     def to_dict(self):
-        """Returns the dictionary representation of the instance"""
+        """Returns the dictionary representation of the instance with or key/value 
+            of that instance"""
         dictionary = self.__dict__.copy()
         dictionary["__class__"] = self.__class__.__name__
         dictionary["created_at"] = self.created_at.isoformat()
