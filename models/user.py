@@ -1,10 +1,15 @@
 #!/usr/bin/python3
 """User class that inherits from BaseModel"""
 
-from base_model import BaseModels
+from models.base_model import BaseModel
 
 
 class User(BaseModel):
+    """_summary_
+    Contains basic info about the user
+    Args:
+        BaseModel (_type_): Main Class
+    """
     email = ""
     password = ""
     first_name = ""
