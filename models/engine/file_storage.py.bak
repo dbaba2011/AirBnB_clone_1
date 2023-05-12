@@ -1,0 +1,42 @@
+#!/usr/bin/python3 
+""" This is the file storage class """
+
+import json
+
+
+class FileStorage:
+    """  serializes instances to a JSON file and deserializes JSON file to instances """
+    __file_path = "file.json"
+    __objects = {}
+
+    def all(self):
+        """ Returns a dictionary __objects """
+        return FileStorage.__objects
+
+    def new(self, obj):
+        """ sets in __objects the obj with key <obj class name>.id"""
+        key = "{}.{}".format(obj.__class__.__name__, obj.id)
+        FileStorage.__objects[key] = obj
+
+    def save(self):
+        """serializes __objects to the JSON file (path: __file_path)"""
+        obj_list = []
+        for obj in FileStorage.__objects.values():
+            obj_list.append(obj.to_dict())
+
+        with open(FileStorage.__file_path, 'w') as fp:
+            json.dump(obj_list, fp)
+
+    def reload(self):
+        """ deserializes the json file to __objects(only if the json file(_file_path) exits, otherwise do nothin, if the file doesn't exist, no exception should be raised"""
+        try:
+            with open(FileStorage.__file_path, "r") as file:
+                obj_list = json.load(file)
+            for obj_dict in obj_list:
+                obj_class = obj_dict['__class__']
+                obj_id = obj_dict['id']
+                obj = self.class_dict[obj_class](**obj_dict)
+                key = "{}.{}".format(obj_class, obj_id)
+                FileStorage.__objects[key] = obj
+        except FileNotFoundError:
+            pass
