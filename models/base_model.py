@@ -23,14 +23,15 @@ class BaseModel:
         """ Initilazes base class instance
         Args:
             *args: list of arguments(not used)
-            **kwargs: dictionary of arguments"""
-            
+            **kwargs: dictionary of arguments
+        """
         if kwargs:
+            # use dateformat to convert to apply strptime
             dateformat = "%Y-%m-%dT%H:%M:%S.%f"
             for key, value in kwargs.items():
+                # skip if it is a class
                 if key == "__class__":
                     continue
-
                 elif key == "id":
                     self.id = value
                 elif key == "created_at":
@@ -57,6 +58,7 @@ class BaseModel:
 
     def to_dict(self):
         """Returns the dictionary representation of the instance"""
+        # copy dictionary and add the class name and the isoformt convertions
         dictionary = self.__dict__.copy()
         dictionary["__class__"] = self.__class__.__name__
         dictionary["created_at"] = self.created_at.isoformat()

@@ -38,8 +38,10 @@ class FileStorage:
 
     def save(self):
         """ serializes __objects to the json path """
+        #empty dictonary to store the __objects dictionary representations
         obj_dict = {}
         for key in FileStorage.__objects:
+            #convert each object in object to dictionary
             obj_dict[key] = FileStorage.__objects[key].to_dict()
         with open(FileStorage.__file_path, "w") as file:
             json.dump(obj_dict, file)
@@ -50,6 +52,7 @@ class FileStorage:
             with open(FileStorage.__file_path, "r") as f:
                 obj_dict = json.load(f)
             for key, value in obj_dict.items():
+                #Convert the dicitonary representation back to an object
                 obj = self.class_dict[value["__class__"]](**value)
                 FileStorage.__objects[key] = obj
         except FileNotFoundError:
