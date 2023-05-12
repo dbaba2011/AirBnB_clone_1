@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 """ This is the Base Model Class """
 
-import uuid
-import datetime
+from uuid import uuid4
+from datetime import datetime
 import models
 
 
@@ -18,6 +18,7 @@ class BaseModel:
     sace: updates the public instance attribute
     to_dict: return a dictionary reprenstation
     """
+
     def __init__(self, *args, **kwargs):
         """ Constructor method """
         if kwargs:
@@ -29,17 +30,15 @@ class BaseModel:
                 elif key == "id":
                     self.id = value
                 elif key == "created_at":
-                    self.created_at = datetime.\
-                            datetime.strptime(value, dateformat)
+                    self.created_at = datetime.strptime(value, dateformat)
                 elif key == "updated_at":
-                    self.updated_at = datetime.\
-                            datetime.strptime(value, dateformat)
+                    self.updated_at = datetime.strptime(value, dateformat)
                 else:
                     setattr(self, key, value)
         else:
-            self.id = str(uuid.uuid4())
-            self.created_at = datetime.datetime.now()
-            self.updated_at = datetime.datetime.now()
+            self.id = str(uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
             models.storage.new(self)
 
     def __str__(self):
@@ -49,7 +48,7 @@ class BaseModel:
 
     def save(self):
         """Updated the updated_at attribute """
-        self.updated_at = datetime.datetime.now()
+        self.updated_at = datetime.now()
         models.storage.save()
 
     def to_dict(self):
