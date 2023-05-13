@@ -1,0 +1,53 @@
+#!/usr/bin/python3
+"""Test for the file storage class"""
+
+import json
+import unittest
+from models.base_model import BaseModel
+from models.city import City
+from models.engine.file_storage import FileStorage
+
+
+class Test_FileStorage(unittest.TestCase):
+    """Test for the file storage class"""
+
+    def test_instance(self):
+        """Test if instance of file storage is created"""   
+        fs = FileStorage()
+        self.assertIsInstance(fs, FileStorage)
+
+    def test_attributes(self):
+        """Test if file storage has the expected attributes"""
+        fs = FileStorage()
+        self.assertTrue(hasattr(fs, "_FileStorage__file_path"))
+        self.assertTrue(hasattr(fs, "_FileStorage__objects"))
+
+    def test_all(self):
+        """Test if all method returns the expected objects"""
+        fs = FileStorage()
+        self.assertEqual(len(fs.all()), len(fs._FileStorage__objects))
+
+    def test_new(self):
+        """Test if new method adds an object to the __objects dictionary"""
+        fs = FileStorage()
+        c1 = City()
+        fs.new(c1)
+        self.assertIn(c1, fs._FileStorage__objects.values())
+
+    def test_save(self):
+        """Test if save method saves the __objects dictionary to a file"""
+        fs = FileStorage()
+        c1 = City()
+        fs.new(c1)
+        fs.save()
+        with open(fs._FileStorage__file_path, "r") as f:
+            self.assertIn(c1.to_dict(), json.load(f))
+
+    def test_reload(self):
+        """Test if reload method loads objects from a file into __objects"""
+        fs = FileStorage()
+        c1 = City()
+        fs.new(c1)
+        fs.save()
+        fs.reload()
+        self.assertIn(c1, fs._FileStorage__objects.values())
