@@ -60,6 +60,20 @@ class TestBase_Instance(unittest.TestCase):
         self.assertEqual(b1.id, "123")
         self.assertEqual(b1.created_at, date)
         self.assertEqual(b1.updated_at, date)
+    
+        def test_todict(self):
+            """Test for the dict output"""
+            date = datetime.now
+            b1 = BaseModel()
+            b1.id = "12345"
+            b1.created_at = b1.updated_at = date
+            b1dict = {
+                'id': '123456',
+                '__class__': 'BaseModel',
+                'created_at': date.isoformat(),
+                'updated_at': date.isoformat()
+            }
+            self.assertDictEqual(b1.to_dict(), b1dict)
 
     class TestBase_save(unittest.TestCase):
         """Unittest for testing save"""
@@ -104,20 +118,6 @@ class TestBase_Instance(unittest.TestCase):
             self.assertIn("create_at", model.to_dict())
             self.assertIn("updated_at", model.to_dict())
             self.assertIn("__class__", model.to_dict())
-
-        def test_todict(self):
-            """Test for the dict output"""
-            date = datetime.now
-            b1 = BaseModel()
-            b1.id = "12345"
-            b1.created_at = b1.updated_at = date
-            b1dict = {
-                'id': '123456',
-                '__class__': 'BaseModel',
-                'created_at': date.isoformat(),
-                'updated_at': date.isoformat()
-            }
-            self.assertDictEqual(b1.to_dict(), b1dict)
 
         def test_todict_withdunderdict_(self):
             """Test with the dunder dict"""
