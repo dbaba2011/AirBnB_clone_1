@@ -61,7 +61,7 @@ class TestBase_Instance(unittest.TestCase):
         self.assertEqual(b1.created_at, date)
         self.assertEqual(b1.updated_at, date)
     
-        def test_todict(self):
+    def test_todict(self):
             """Test for the dict output"""
             date = datetime.now
             b1 = BaseModel()
@@ -78,7 +78,7 @@ class TestBase_Instance(unittest.TestCase):
     class TestBase_save(unittest.TestCase):
         """Unittest for testing save"""
 
-        def test_safe(self):
+        def test_save(self):
             """Check if save is valid"""
             b1 = BaseModel()
             update1 = b1.updated_at
