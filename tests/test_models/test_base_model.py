@@ -64,21 +64,18 @@ class TestBase_Instance(unittest.TestCase):
     class TestBase_save(unittest.TestCase):
         """Unittest for testing save"""
 
-        def test_valid_safe(self):
+        def test_safe(self):
             """Check if save is valid"""
             b1 = BaseModel()
             update1 = b1.updated_at
             b1.save()
             update2 = b1.updated_at
             self.assertNotEqual(update1, update2)
-
-        def test_save(self):
-            """Test for a number of saves"""
-            b1 = BaseModel()
+            b2 = BaseModel()
             sleep(0.05)
-            update1 = b1.updated_at
-            b1.save()
-            update2 = b1.updated_at
+            update1 = b2.updated_at
+            b2.save()
+            update2 = b2.updated_at
             self.assert_Less(update1, update2)
             sleep(0.05)
             b1.save()
@@ -108,7 +105,7 @@ class TestBase_Instance(unittest.TestCase):
             self.assertIn("updated_at", model.to_dict())
             self.assertIn("__class__", model.to_dict())
 
-        def test_dict_output(self):
+        def test_todict(self):
             """Test for the dict output"""
             date = datetime.now
             b1 = BaseModel()
