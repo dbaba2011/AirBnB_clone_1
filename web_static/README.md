@@ -1,1 +1,1 @@
-This directory contains the html and css for the airbnb clone
+The directory comprises only  the html and css of the airbnb clone project
